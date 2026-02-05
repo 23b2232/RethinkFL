@@ -1,3 +1,7 @@
+import copy
+import torch
+import numpy as np
+# ... other imports
 import os
 import sys
 import socket
@@ -28,7 +32,6 @@ import torch
 import uuid
 import datetime
 
-
 def parse_args():
     parser = ArgumentParser(description='You Only Need Me', allow_abbrev=False)
     parser.add_argument('--device_id', type=int, default=0, help='The Device Id for Experiment')
@@ -36,6 +39,12 @@ def parse_args():
     parser.add_argument('--communication_epoch', type=int, default=100, help='The Communication Epoch in Federated Learning')
     parser.add_argument('--local_epoch', type=int, default=10, help='The Local Epoch for each Participant')
     parser.add_argument('--parti_num', type=int, default=10, help='The Number for Participants')
+
+    # Add after line 38
+    parser.add_argument('--min_participants', type=int, default=None,
+                        help='Minimum number of participants per round (for dynamic sampling)')
+    parser.add_argument('--max_participants', type=int, default=None,
+                        help='Maximum number of participants per round (for dynamic sampling)')
 
     parser.add_argument('--seed', type=int, default=0, help='The random seed.')
     parser.add_argument('--rand_dataset', type=bool, default=True, help='The random seed.')
