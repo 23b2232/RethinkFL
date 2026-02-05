@@ -2,6 +2,9 @@ from argparse import ArgumentParser
 from datasets import Priv_NAMES as DATASET_NAMES
 from models import get_all_models
 
+# Make sure this is exported
+__all__ = ['add_experiment_args', 'add_management_args', 'add_sampling_args']
+
 
 def add_experiment_args(parser: ArgumentParser) -> None:
     """
