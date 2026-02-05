@@ -7,8 +7,9 @@ def get_device(device_id) -> torch.device:
     return torch.device("cuda:" + str(device_id) if torch.cuda.is_available() else "cpu")
 
 
+# AFTER:
 def data_path() -> str:
-    return 'F://dataset/pic_cls/'
+    return './datasets/'
 
 
 def base_path() -> str:
