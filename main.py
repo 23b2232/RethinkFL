@@ -40,12 +40,6 @@ def parse_args():
     parser.add_argument('--local_epoch', type=int, default=10, help='The Local Epoch for each Participant')
     parser.add_argument('--parti_num', type=int, default=10, help='The Number for Participants')
 
-    # Add after line 38
-    parser.add_argument('--min_participants', type=int, default=None,
-                        help='Minimum number of participants per round (for dynamic sampling)')
-    parser.add_argument('--max_participants', type=int, default=None,
-                        help='Maximum number of participants per round (for dynamic sampling)')
-
     parser.add_argument('--seed', type=int, default=0, help='The random seed.')
     parser.add_argument('--rand_dataset', type=bool, default=True, help='The random seed.')
 
