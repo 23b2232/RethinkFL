@@ -20,7 +20,7 @@ sys.path.append(conf_path + '/models')
 from datasets import Priv_NAMES as DATASET_NAMES
 from models import get_all_models
 from argparse import ArgumentParser
-from utils.args import add_management_args
+from utils.args import add_management_args, add_sampling_args
 from datasets import get_prive_dataset
 from models import get_model
 from utils.training import train
