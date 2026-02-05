@@ -36,3 +36,14 @@ def add_experiment_args(parser: ArgumentParser) -> None:
 def add_management_args(parser: ArgumentParser) -> None:
     parser.add_argument('--csv_log', action='store_true',
                         help='Enable csv logging',default=False)
+
+# ADD THIS NEW FUNCTION:
+def add_sampling_args(parser: ArgumentParser) -> None:
+    """
+    Adds arguments for dynamic participant sampling.
+    :param parser: the parser instance
+    """
+    parser.add_argument('--min_participants', type=int, default=None,
+                        help='Minimum number of participants per round (for dynamic sampling)')
+    parser.add_argument('--max_participants', type=int, default=None,
+                        help='Maximum number of participants per round (for dynamic sampling)')
