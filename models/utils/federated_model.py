@@ -42,6 +42,40 @@ class FederatedModel(nn.Module):
         create_if_not_exists(self.checkpoint_path)
         self.net_to_device()
 
+        # ADD THIS METHOD:
+    def sample_clients(self, total_clients):
+        """
+        Sample clients for this communication round.
+        Supports dynamic sampling when min_participants is set.
+        
+        Args:
+            total_clients: List of all client IDs
+        
+        Returns:
+            List of sampled client IDs
+        """
+        if hasattr(self.args, 'min_participants') and self.args.min_participants is not None:
+            import random
+            
+            min_p = self.args.min_participants
+            max_p = self.args.max_participants if (hasattr(self.args, 'max_participants') 
+                                                    and self.args.max_participants) else min_p
+            
+            num_to_sample = random.randint(min_p, max_p)
+            online_clients = random.sample(total_clients, num_to_sample)
+            online_clients.sort()
+            
+            print(f"\n🎲 Round {self.epoch_index}: Sampled {len(online_clients)}/{len(total_clients)} participants: {online_clients}")
+            
+            return online_clients
+        else:
+            # Original behavior
+            return self.random_state.choice(total_clients, self.online_num, replace=False).tolist()
+    
+    def net_to_device(self):
+        for net in self.nets_list:
+            net.to(self.device)
+
     def net_to_device(self):
         for net in self.nets_list:
             net.to(self.device)
