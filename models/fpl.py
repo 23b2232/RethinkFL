@@ -8,6 +8,20 @@ import torch
 from utils.finch import FINCH
 import numpy as np
 
+# ADD THIS FUNCTION:
+def sample_clients_dynamic(args, total_clients, online_num, random_state, epoch_index):
+    """Dynamic participant sampling"""
+    if hasattr(args, 'min_participants') and args.min_participants is not None:
+        import random
+        min_p = args.min_participants
+        max_p = args.max_participants if (hasattr(args, 'max_participants') and args.max_participants) else min_p
+        num_to_sample = random.randint(min_p, max_p)
+        online_clients = random.sample(total_clients, num_to_sample)
+        online_clients.sort()
+        print(f"\n🎲 Round {epoch_index}: Sampled {len(online_clients)}/{len(total_clients)} participants: {online_clients}")
+        return online_clients
+    else:
+        return random_state.choice(total_clients, online_num, replace=False).tolist()
 
 def get_parser() -> ArgumentParser:
     parser = ArgumentParser(description='Federated learning via FedHierarchy.')
@@ -121,9 +135,10 @@ class FPL(FederatedModel):
         return infonce_loss
 
     def loc_update(self, priloader_list):
-        total_clients = list(range(self.args.parti_num))
-        online_clients = self.random_state.choice(total_clients, self.online_num, replace=False).tolist()
-        self.online_clients = online_clients
+    total_clients = list(range(self.args.parti_num))
+    online_clients = sample_clients_dynamic(self.args, total_clients, self.online_num, 
+                                           self.random_state, self.epoch_index)  # Changed!
+    self.online_clients = online_clients
 
         for i in online_clients:
             self._train_net(i, self.nets_list[i], priloader_list[i])
