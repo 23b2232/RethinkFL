@@ -3,6 +3,7 @@ import torch.nn as nn
 from tqdm import tqdm
 import copy
 from models.utils.federated_model import FederatedModel
+from argparse import ArgumentParser
 import torch
 
 class FedProx(FederatedModel):
