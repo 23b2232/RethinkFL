@@ -22,12 +22,11 @@ class FedProx(FederatedModel):
 
     def loc_update(self, priloader_list):
         total_clients = list(range(self.args.parti_num))
-        online_clients = self.random_state.choice(total_clients, self.online_num, replace=False).tolist()
+        online_clients = self.sample_clients(total_clients)  # Use parent method
         self.online_clients = online_clients
-
+    
         for i in online_clients:
             self._train_net(i, self.nets_list[i], priloader_list[i])
-
         self.aggregate_nets(None)
         return None
 
