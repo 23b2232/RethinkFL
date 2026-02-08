@@ -4,6 +4,7 @@ from tqdm import tqdm
 import copy
 from models.utils.federated_model import FederatedModel
 import torch
+from argparse import ArgumentParser
 
 class MOON(FederatedModel):
     NAME = 'moon'
