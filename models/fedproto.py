@@ -5,6 +5,7 @@ import copy
 from utils.args import *
 from models.utils.federated_model import FederatedModel
 import torch
+from argparse import ArgumentParser
 
 # https://github.com/yuetan031/fedproto
 
