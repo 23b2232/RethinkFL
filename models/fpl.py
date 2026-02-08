@@ -88,14 +88,21 @@ class FPL(FederatedModel):
         return agg_protos_label
 
     def hierarchical_info_loss(self, f_now, label, all_f, mean_f, all_global_protos_keys):
-        f_pos = np.array(all_f)[all_global_protos_keys == label.item()][0].to(self.device)
-        f_neg = torch.cat(list(np.array(all_f)[all_global_protos_keys != label.item()])).to(self.device)
+        # Find indices where label matches
+        label_match_idx = np.where(all_global_protos_keys == label.item())[0]
+        label_mismatch_idx = np.where(all_global_protos_keys != label.item())[0]
+        
+        # Get positive prototypes (directly index the list, not numpy array)
+        f_pos = all_f[label_match_idx[0]].to(self.device)
+        
+        # Get negative prototypes (directly index the list)
+        f_neg_list = [all_f[idx].to(self.device) for idx in label_mismatch_idx]
+        f_neg = torch.cat(f_neg_list, dim=0)
+        
         xi_info_loss = self.calculate_infonce(f_now, f_pos, f_neg)
 
-        mean_f_pos = np.array(mean_f)[all_global_protos_keys == label.item()][0].to(self.device)
+        mean_f_pos = mean_f[label_match_idx[0]].to(self.device)
         mean_f_pos = mean_f_pos.view(1, -1)
-        # mean_f_neg = torch.cat(list(np.array(mean_f)[all_global_protos_keys != label.item()]), dim=0).to(self.device)
-        # mean_f_neg = mean_f_neg.view(9, -1)
 
         loss_mse = nn.MSELoss()
         cu_info_loss = loss_mse(f_now, mean_f_pos)
