@@ -63,6 +63,7 @@ def parse_args():
 
     torch.set_num_threads(4)
     add_management_args(parser)
+    add_sampling_args(parser)  # ADD THIS LINE!
     args = parser.parse_args()
 
     best = best_args[args.dataset][args.model]
