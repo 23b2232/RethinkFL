@@ -71,10 +71,6 @@ class FederatedModel(nn.Module):
         else:
             # Original behavior
             return self.random_state.choice(total_clients, self.online_num, replace=False).tolist()
-    
-    def net_to_device(self):
-        for net in self.nets_list:
-            net.to(self.device)
 
     def net_to_device(self):
         for net in self.nets_list:
