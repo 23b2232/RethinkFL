@@ -49,4 +49,22 @@ Only a subset (5–6 clients) participate per round.
 
 ## Analysis
 
-- 
+### 1. Performance under Full Participation
+
+- When all clients participate in each communication round, FPL achieves the highest average accuracy (90.58% peak, 90.51% final), outperforming FedAvg, FedProx, and MOON
+- FPL shows consistent improvement across all domains, especially on MNIST and USPS (high stability) and SYN (better domain generalization)
+- Compared to FedAvg / FedProx, FPL improves average accuracy by ~1–1.5%, while MOON performs well on SVHN, it is less consistent across domains
+- This indicates that prototype-based alignment helps learn a shared representation across heterogeneous domains, improving generalization
+
+### 2. Performance under Partial Participation (Random Sampling)
+
+- In a more realistic setting where only 5–6 clients participate per round All methods experience a drop in performance due to reduced communication, however, FPL remains the most robust method
+- FPL achieves the highest final average accuracy (89.15%)
+- It significantly outperforms:
+  - FedAvg by ~3%
+  - FedProx by ~1.7%
+  - MOON by ~0.7%
+- The performance gap increases compared to full participation, highlighting that FPL is more resilient to client sampling variability
+
+For MNIST, USPS all methods perform well. While for SVHN, MOON is competitive due to contrastive learning, but FPL remains stable. In SYN FPL shows clear improvement, indicating better handling of domain shift.
+
