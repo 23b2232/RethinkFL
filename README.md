@@ -40,9 +40,12 @@ This helps the global model perform well across heterogeneous data distributions
 
 ## Key Learnings
 
-- Domain shift significantly impacts federated learning performance
-- Prototype-based learning provides a shared representation space
-- Trade-off between local specialization and global generalization
+- Traditional Federated Learning methods struggle when data distributions differ across clients
+- FPL improves performance by:
+  - Learning class-level prototypes 
+  - Aligning local representations to a shared global structure
+
+This reduces domain-specific bias and improves cross-domain generalization (this can be viewed in the analysis section of the results).
 
 ## Citation
 ```
